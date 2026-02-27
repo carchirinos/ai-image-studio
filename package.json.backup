@@ -12,18 +12,19 @@
     "@testing-library/user-event": "^13.5.0",
     "aws-amplify": "^6.16.2",
     "lucide-react": "^0.575.0",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
     "react-router-dom": "^7.13.1",
     "react-scripts": "^5.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "./node_modules/.bin/react-scripts start",
-    "build": "./node_modules/.bin/react-scripts build",
-    "test": "./node_modules/.bin/react-scripts test",
-    "eject": "./node_modules/.bin/react-scripts eject"
-  },
+  "start": "./node_modules/.bin/react-scripts start",
+  "build": "./node_modules/.bin/react-scripts build",
+  "test": "./node_modules/.bin/react-scripts test", 
+  "eject": "./node_modules/.bin/react-scripts eject"
+},
+
   "eslintConfig": {
     "extends": [
       "react-app",
