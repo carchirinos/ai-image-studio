@@ -1,0 +1,24 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-aiimagestudio-dev-0ae12-authRole",
+      "UnauthRoleArn": "arn:aws:iam::559960067174:role/amplify-aiimagestudio-dev-0ae12-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::559960067174:role/amplify-aiimagestudio-dev-0ae12-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-aiimagestudio-dev-0ae12-deployment",
+      "UnauthRoleName": "amplify-aiimagestudio-dev-0ae12-unauthRole",
+      "StackName": "amplify-aiimagestudio-dev-0ae12",
+      "StackId": "arn:aws:cloudformation:us-west-2:559960067174:stack/amplify-aiimagestudio-dev-0ae12/08bffc50-12e0-11f1-a5e7-0286f6ce9373",
+      "AmplifyAppId": "d1equ57uiywqou"
+    },
+    "categories": {
+      "auth": {
+        "aiimagestudio661432df": {}
+      },
+      "predictions": {
+        "imageAnalyzer": {},
+        "AITextInterpreter": {}
+      }
+    }
+  }
+}
