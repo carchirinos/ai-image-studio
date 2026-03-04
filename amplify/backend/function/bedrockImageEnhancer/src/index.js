@@ -6,13 +6,14 @@ exports.handler = async (event) => {
     console.log('Event received:', JSON.stringify(event, null, 2));
 
     try {
-        let imageBase64, taskType, prompt;
+        let imageBase64, taskType, prompt, maskPrompt;
 
         if (event.body) {
             const body = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
             imageBase64 = body.imageBase64;
             taskType    = body.taskType || 'BACKGROUND_REMOVAL';
             prompt      = body.prompt || '';
+            maskPrompt  = body.maskPrompt || prompt;
         } else {
             throw new Error('No body provided');
         }
@@ -21,22 +22,36 @@ exports.handler = async (event) => {
 
         console.log('Task type:', taskType);
 
-        let requestBody;
+        let resultBase64;
 
         if (taskType === 'BACKGROUND_REMOVAL') {
-            requestBody = {
+
+            const requestBody = {
                 taskType: 'BACKGROUND_REMOVAL',
                 backgroundRemovalParams: {
                     image: imageBase64
                 }
             };
+
+            const command = new InvokeModelCommand({
+                modelId: 'amazon.titan-image-generator-v2:0',
+                contentType: 'application/json',
+                accept: 'application/json',
+                body: JSON.stringify(requestBody)
+            });
+
+            const response = await client.send(command);
+            const responseBody = JSON.parse(new TextDecoder().decode(response.body));
+            resultBase64 = responseBody.images[0];
+
         } else if (taskType === 'IMAGE_VARIATION') {
-            requestBody = {
+
+            const requestBody = {
                 taskType: 'IMAGE_VARIATION',
                 imageVariationParams: {
                     images: [imageBase64],
                     text: prompt,
-                    similarityStrength: 0.7
+                    similarityStrength: 0.6
                 },
                 imageGenerationConfig: {
                     numberOfImages: 1,
@@ -45,13 +60,26 @@ exports.handler = async (event) => {
                     cfgScale: 8.0
                 }
             };
+
+            const command = new InvokeModelCommand({
+                modelId: 'amazon.titan-image-generator-v2:0',
+                contentType: 'application/json',
+                accept: 'application/json',
+                body: JSON.stringify(requestBody)
+            });
+
+            const response = await client.send(command);
+            const responseBody = JSON.parse(new TextDecoder().decode(response.body));
+            resultBase64 = responseBody.images[0];
+
         } else if (taskType === 'INPAINTING') {
-            requestBody = {
+
+            const requestBody = {
                 taskType: 'INPAINTING',
                 inPaintingParams: {
                     image: imageBase64,
                     text: prompt,
-                    maskPrompt: prompt
+                    maskPrompt: maskPrompt
                 },
                 imageGenerationConfig: {
                     numberOfImages: 1,
@@ -60,22 +88,48 @@ exports.handler = async (event) => {
                     cfgScale: 8.0
                 }
             };
-        } else {
+
+            const command = new InvokeModelCommand({
+                modelId: 'amazon.titan-image-generator-v2:0',
+                contentType: 'application/json',
+                accept: 'application/json',
+                body: JSON.stringify(requestBody)
+            });
+
+            const response = await client.send(command);
+            const responseBody = JSON.parse(new TextDecoder().decode(response.body));
+            resultBase64 = responseBody.images[0];
+
+}  else if (taskType === 'AI_TRANSFORMATION') {
+
+    const requestBody = {
+        taskType: 'IMAGE_VARIATION',
+        imageVariationParams: {
+            images: [imageBase64],
+            text: prompt,
+            similarityStrength: 0.3
+        },
+        imageGenerationConfig: {
+            numberOfImages: 1,
+            height: 512,
+            width: 512,
+            cfgScale: 8.0
+        }
+    };
+
+    const command = new InvokeModelCommand({
+        modelId: 'amazon.titan-image-generator-v2:0',
+        contentType: 'application/json',
+        accept: 'application/json',
+        body: JSON.stringify(requestBody)
+    });
+
+    const response = await client.send(command);
+    const responseBody = JSON.parse(new TextDecoder().decode(response.body));
+    resultBase64 = responseBody.images[0];
+} else {
             throw new Error('Invalid taskType: ' + taskType);
         }
-
-        const command = new InvokeModelCommand({
-            modelId: 'amazon.titan-image-generator-v2:0',
-            contentType: 'application/json',
-            accept: 'application/json',
-            body: JSON.stringify(requestBody)
-        });
-
-        console.log('Invoking Bedrock...');
-        const response = await client.send(command);
-
-        const responseBody = JSON.parse(new TextDecoder().decode(response.body));
-        const resultBase64 = responseBody.images[0];
 
         return {
             statusCode: 200,

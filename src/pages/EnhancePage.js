@@ -29,13 +29,13 @@ const MODES = [
     placeholder: 'Ej: "Replace the sky with a sunset"'
   },
   {
-    id: 'IMAGE_VARIATION',
-    icon: '🤖',
-    label: 'AI Transformation',
-    desc: 'Transforma con un prompt libre',
-    hasPrompt: true,
-    placeholder: 'Ej: "Make it look like a cyberpunk city at night"'
-  }
+  id: 'AI_TRANSFORMATION',
+  icon: '🤖',
+  label: 'AI Transformation',
+  desc: 'Transforma con un prompt libre',
+  hasPrompt: true,
+  placeholder: 'Ej: "Transform into a snowy winter scene"'
+}
 ];
 
 function EnhancePage() {
