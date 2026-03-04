@@ -8,7 +8,7 @@ const Sidebar = ({ isOpen, onClose }) => {
   const menuItems = [
     { path: '/app', icon: '🏠', label: 'Dashboard', exact: true },
     { path: '/app/generate', icon: '🎨', label: 'Generate' },
-    { path: '/app/upload', icon: '📤', label: 'Upload' },
+    { path: '/app/enhance', icon: '✨', label: 'Enhance' },
     { path: '/app/recognize', icon: '🔍', label: 'Analyze' },
     { path: '/app/extract', icon: '📝', label: 'Extract' },
     { path: '/app/gallery', icon: '🖼️', label: 'Gallery' },

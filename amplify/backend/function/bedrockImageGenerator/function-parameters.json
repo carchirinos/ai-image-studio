@@ -1,0 +1,21 @@
+{
+  "lambdaLayers": [],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "modelId",
+      "environmentVariableName": "MODEL_ID"
+    },
+    {
+      "cloudFormationParameterName": "awsRegionBedrock",
+      "environmentVariableName": "AWS_REGION_BEDROCK"
+    },
+    {
+      "cloudFormationParameterName": "defaultCfgScale",
+      "environmentVariableName": "DEFAULT_CFG_SCALE"
+    },
+    {
+      "cloudFormationParameterName": "defaultSteps",
+      "environmentVariableName": "DEFAULT_STEPS"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "paths": {
+    "/generate-image": {
+      "name": "/generate-image",
+      "lambdaFunction": "bedrockImageGenerator",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/chat": {
+      "name": "/chat",
+      "lambdaFunction": "bedrockChatbot",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

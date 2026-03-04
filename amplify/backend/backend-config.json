@@ -1,4 +1,42 @@
 {
+  "api": {
+    "enhanceImageApi": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bedrockImageEnhancer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
+    "imageGeneratorAPI": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bedrockImageGenerator"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bedrockChatbot"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
   "auth": {
     "aiimagestudio661432df": {
       "customAuth": false,
@@ -25,6 +63,130 @@
       "service": "Cognito"
     }
   },
+  "function": {
+    "bedrockChatbot": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "bedrockImageEnhancer": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "bedrockImageGenerator": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "hosting": {
+    "amplifyhosting": {
+      "providerPlugin": "awscloudformation",
+      "service": "amplifyhosting",
+      "type": "manual"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_bedrockChatbot_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bedrockChatbot"
+        }
+      ]
+    },
+    "AMPLIFY_function_bedrockChatbot_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bedrockChatbot"
+        }
+      ]
+    },
+    "AMPLIFY_function_bedrockImageEnhancer_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bedrockImageEnhancer"
+        }
+      ]
+    },
+    "AMPLIFY_function_bedrockImageEnhancer_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bedrockImageEnhancer"
+        }
+      ]
+    },
+    "AMPLIFY_function_bedrockImageGenerator_awsRegionBedrock": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bedrockImageGenerator"
+        }
+      ]
+    },
+    "AMPLIFY_function_bedrockImageGenerator_defaultCfgScale": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bedrockImageGenerator"
+        }
+      ]
+    },
+    "AMPLIFY_function_bedrockImageGenerator_defaultSteps": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bedrockImageGenerator"
+        }
+      ]
+    },
+    "AMPLIFY_function_bedrockImageGenerator_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bedrockImageGenerator"
+        }
+      ]
+    },
+    "AMPLIFY_function_bedrockImageGenerator_modelId": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bedrockImageGenerator"
+        }
+      ]
+    },
+    "AMPLIFY_function_bedrockImageGenerator_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bedrockImageGenerator"
+        }
+      ]
+    },
+    "AMPLIFY_hosting_amplifyhosting_appId": {
+      "usedBy": [
+        {
+          "category": "hosting",
+          "resourceName": "amplifyhosting"
+        }
+      ]
+    },
+    "AMPLIFY_hosting_amplifyhosting_type": {
+      "usedBy": [
+        {
+          "category": "hosting",
+          "resourceName": "amplifyhosting"
+        }
+      ]
+    }
+  },
   "predictions": {
     "AITextInterpreter": {
       "interpretType": "interpretText",
@@ -36,6 +198,13 @@
       "identifyType": "identifyEntities",
       "providerPlugin": "awscloudformation",
       "service": "Rekognition"
+    }
+  },
+  "storage": {
+    "imageStorage": {
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "S3"
     }
   }
 }

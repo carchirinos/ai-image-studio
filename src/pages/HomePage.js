@@ -9,37 +9,61 @@ const HomePage = () => {
   // Sample gallery images for demonstration
   const galleryImages = {
     generated: [
-      { id: 1, prompt: 'Cyberpunk cityscape at sunset', style: 'Digital Art' },
-      { id: 2, prompt: 'Watercolor mountain landscape', style: 'Watercolor' },
-      { id: 3, prompt: 'Portrait in oil painting style', style: 'Oil Painting' },
-      { id: 4, prompt: 'Fantasy dragon in medieval setting', style: 'Fantasy' },
-      { id: 5, prompt: 'Minimalist geometric design', style: 'Minimalist' },
-      { id: 6, prompt: 'Vintage car photography', style: 'Vintage' }
-    ],
-    enhanced: [
-      { id: 1, enhancement: 'AI Upscaled 4K', original: 'Low resolution photo' },
-      { id: 2, enhancement: 'Noise Reduction', original: 'Grainy night photo' },
-      { id: 3, enhancement: 'Color Enhancement', original: 'Faded vintage photo' },
-      { id: 4, enhancement: 'Background Removal', original: 'Product photo' },
-      { id: 5, enhancement: 'HDR Processing', original: 'Underexposed landscape' },
-      { id: 6, enhancement: 'Portrait Enhancement', original: 'Selfie photo' }
-    ],
-    analyzed: [
-      { id: 1, detected: ['Person', 'Car', 'Building'], confidence: '95%' },
-      { id: 2, detected: ['Dog', 'Park', 'Trees'], confidence: '92%' },
-      { id: 3, detected: ['Food', 'Table', 'Restaurant'], confidence: '88%' },
-      { id: 4, detected: ['Nature', 'Mountain', 'Sky'], confidence: '96%' },
-      { id: 5, detected: ['Technology', 'Computer', 'Office'], confidence: '91%' },
-      { id: 6, detected: ['Sports', 'Stadium', 'Crowd'], confidence: '89%' }
-    ],
-    ocr: [
-      { id: 1, extracted: 'Business Card - Contact Information', accuracy: '98%' },
-      { id: 2, extracted: 'Restaurant Menu - Food Items & Prices', accuracy: '95%' },
-      { id: 3, extracted: 'Document - Legal Contract Text', accuracy: '97%' },
-      { id: 4, extracted: 'Handwritten Note - Personal Message', accuracy: '87%' },
-      { id: 5, extracted: 'Street Sign - Location Information', accuracy: '99%' },
-      { id: 6, extracted: 'Book Page - Literature Content', accuracy: '96%' }
-    ]
+  { id: 1, prompt: 'Cyberpunk cityscape at sunset', style: 'Digital Art',
+    img: 'https://images.unsplash.com/photo-1519608487953-e999c86e7455?w=600&q=80' },
+  { id: 2, prompt: 'Watercolor mountain landscape', style: 'Watercolor',
+    img: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80' },
+  { id: 3, prompt: 'Portrait in oil painting style', style: 'Oil Painting',
+    img: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=600&q=80' },
+  { id: 4, prompt: 'Fantasy dragon in medieval setting', style: 'Fantasy',
+    img: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&q=80' },
+  { id: 5, prompt: 'Minimalist geometric design', style: 'Minimalist',
+    img: 'https://images.unsplash.com/photo-1771238496987-140db60cc1f3?w=600&q=80' },
+  { id: 6, prompt: 'Vintage car photography', style: 'Vintage',
+    img: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=600&q=80' }
+],
+enhanced: [
+  { id: 1, enhancement: 'AI Upscaled 4K', original: 'Low resolution photo',
+    img: 'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=600&q=80' },
+  { id: 2, enhancement: 'Noise Reduction', original: 'Grainy night photo',
+    img: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=600&q=80' },
+  { id: 3, enhancement: 'Color Enhancement', original: 'Faded vintage photo',
+    img: 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=600&q=80' },
+  { id: 4, enhancement: 'Background Removal', original: 'Product photo',
+    img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80' },
+  { id: 5, enhancement: 'HDR Processing', original: 'Underexposed landscape',
+    img: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80' },
+  { id: 6, enhancement: 'Portrait Enhancement', original: 'Selfie photo',
+    img: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&q=80' }
+],
+analyzed: [
+  { id: 1, detected: ['Person', 'Car', 'Building'], confidence: '95%',
+    img: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&q=80' },
+  { id: 2, detected: ['Dog', 'Park', 'Trees'], confidence: '92%',
+    img: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=600&q=80' },
+  { id: 3, detected: ['Food', 'Table', 'Restaurant'], confidence: '88%',
+    img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80' },
+  { id: 4, detected: ['Nature', 'Mountain', 'Sky'], confidence: '96%',
+    img: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&q=80' },
+  { id: 5, detected: ['Technology', 'Computer', 'Office'], confidence: '91%',
+    img: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&q=80' },
+  { id: 6, detected: ['Sports', 'Stadium', 'Crowd'], confidence: '89%',
+    img: 'https://images.unsplash.com/photo-1556056504-5c7696c4c28d?w=600&q=80' }
+],
+ocr: [
+  { id: 1, extracted: 'Business Card - Contact Information', accuracy: '98%',
+    img: 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=600&q=80' },
+  { id: 2, extracted: 'Restaurant Menu - Food Items & Prices', accuracy: '95%',
+    img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80' },
+  { id: 3, extracted: 'Document - Legal Contract Text', accuracy: '97%',
+    img: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&q=80' },
+  { id: 4, extracted: 'Handwritten Note - Personal Message', accuracy: '87%',
+    img: 'https://images.unsplash.com/photo-1517842645767-c639042777db?w=600&q=80' },
+  { id: 5, extracted: 'Street Sign - Location Information', accuracy: '99%',
+    img: 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=600&q=80' },
+  { id: 6, extracted: 'Book Page - Literature Content', accuracy: '96%',
+    img: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&q=80' }
+]
   };
 
   const modules = [
@@ -53,12 +77,12 @@ const HomePage = () => {
       color: 'from-purple-500 to-pink-500'
     },
     {
-      id: 'upload',
-      title: 'Upload & Enhance',
-      icon: '📤',
-      description: 'Upload and enhance your existing images with AI',
-      features: ['AI Upscaling', 'Noise Reduction', 'Color Enhancement', 'Background Removal'],
-      route: '/app/upload',
+      id: 'Enhance',
+      title: 'Enhance Images',
+      icon: '✨',
+      description: 'Transform your images with AI — Background Removal, Style Transfer and more',
+      features: ['Background Removal', 'Style Transfer', 'Image Editing', 'AI Transformation'],
+      route: '/app/enhance',
       color: 'from-blue-500 to-cyan-500'
     },
     {
@@ -182,9 +206,18 @@ const HomePage = () => {
             {galleryImages[activeGallery].map((image) => (
               <div key={image.id} className="gallery-item">
                 <div className="image-placeholder">
-                  <span className="placeholder-icon">🖼️</span>
-                  <span className="placeholder-text">Sample Image</span>
-                </div>
+  <img
+    src={image.img}
+    alt={
+      activeGallery === 'generated' ? image.prompt :
+      activeGallery === 'enhanced'  ? image.enhancement :
+      activeGallery === 'analyzed'  ? image.detected.join(', ') :
+      image.extracted
+    }
+    className="gallery-real-img"
+    onError={(e) => { e.target.style.display = 'none'; }}
+  />
+</div>
                 <div className="image-info">
                   {activeGallery === 'generated' && (
                     <>

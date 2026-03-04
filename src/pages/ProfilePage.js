@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import './ProfilePage.css';
-
+import { useAuth } from '../contexts/AuthContext';
 const ProfilePage = () => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [userInfo, setUserInfo] = useState({
-    name: 'Carlos Rodriguez',
-    email: 'carlos@example.com',
-    title: 'AI Image Creator',
-    location: 'San Francisco, CA',
-    joinDate: 'January 2024',
-    bio: 'Passionate about AI-generated art and image enhancement. Love exploring new creative possibilities with artificial intelligence.'
-  });
+  const { user } = useAuth();const [isEditing, setIsEditing] = useState(false);
+const [userInfo, setUserInfo] = useState({
+  name: user?.username || 'AI Creator',
+  email: user?.signInDetails?.loginId || '',
+  title: 'AI Image Creator',
+  location: '',
+  joinDate: new Date().toLocaleDateString(),
+  bio: ''
+});
 
   const stats = [
     { label: 'Images Generated', value: '156', icon: '🎨', color: '#667eea' },

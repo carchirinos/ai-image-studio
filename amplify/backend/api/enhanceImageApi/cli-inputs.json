@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/enhance-image": {
+      "name": "/enhance-image",
+      "lambdaFunction": "bedrockImageEnhancer",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

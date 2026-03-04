@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-
+import { signIn, signOut, signUp, getCurrentUser} from 'aws-amplify/auth';
 const AuthContext = createContext();
 
 export const useAuth = () => {
@@ -12,12 +12,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   // 🚧 DEVELOPMENT - Remove mock user when implementing real auth
-const [user, setUser] = useState({ 
-  id: '1', 
-  name: 'Carlos', 
-  email: 'carlos@example.com',
-  createdAt: new Date().toISOString()
-});
+const [user, setUser] = useState(null);
 
   const [loading, setLoading] = useState(true);
 
@@ -26,65 +21,42 @@ const [user, setUser] = useState({
     checkAuthState();
   }, []);
 
-  const checkAuthState = async () => {
-    try {
-      // TODO: Replace with actual Amplify Auth check
-      const savedUser = localStorage.getItem('user');
-      if (savedUser) {
-        setUser(JSON.parse(savedUser));
-      }
-    } catch (error) {
-      console.error('Auth check failed:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+const checkAuthState = async () => {
+  try {
+    const currentUser = await getCurrentUser();
+    setUser(currentUser);
+  } catch {
+    setUser(null);
+  } finally {
+    setLoading(false);
+  }
+};
 
-  const login = async (email, password) => {
-    try {
-      // TODO: Replace with actual Amplify Auth
-      const mockUser = {
-        id: '1',
-        email: email,
-        name: email.split('@')[0],
-        createdAt: new Date().toISOString()
-      };
-      
-      setUser(mockUser);
-      localStorage.setItem('user', JSON.stringify(mockUser));
-      return mockUser;
-    } catch (error) {
-      throw new Error('Login failed: ' + error.message);
-    }
-  };
+const login = async (email, password) => {
+  await signIn({ username: email, password });
+  const currentUser = await getCurrentUser();
+  setUser(currentUser);
+  return currentUser;
+};
 
-  const register = async (name, email, password) => {
-    try {
-      // TODO: Replace with actual Amplify Auth
-      const mockUser = {
-        id: '1',
-        name: name,
-        email: email,
-        createdAt: new Date().toISOString()
-      };
-      
-      setUser(mockUser);
-      localStorage.setItem('user', JSON.stringify(mockUser));
-      return mockUser;
-    } catch (error) {
-      throw new Error('Registration failed: ' + error.message);
-    }
-  };
+const register = async (name, email, password) => {
+  const result = await signUp({
+    username: email,
+    password,
+    options: { userAttributes: { email, name } }
+  });
+  return result;
+};
 
-  const logout = async () => {
-    try {
-      // TODO: Replace with actual Amplify Auth
-      setUser(null);
-      localStorage.removeItem('user');
-    } catch (error) {
-      throw new Error('Logout failed: ' + error.message);
-    }
-  };
+const logout = async () => {
+  try {
+    await signOut({ global: true });
+    setUser(null);
+  } catch (error) {
+    console.error('Logout error:', error);
+    setUser(null);
+  }
+};
 
   const value = {
     user,

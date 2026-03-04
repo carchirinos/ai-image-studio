@@ -15,7 +15,7 @@ const ProtectedRoute = ({ children }) => {
         left: 0,
         right: 0,
         bottom: 0,
-        background: 'rgba(255, 255, 255, 0.9)',
+        background: 'rgba(15, 12, 41, 0.95)',  // oscuro en lugar de blanco
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

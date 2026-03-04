@@ -168,3 +168,55 @@
     font-size: 1rem;
   }
 }
+.chatbot-fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(102,126,234,0.5);
+  z-index: 999;
+}
+
+.main-content {
+  background: #0f0c29 !important;
+  background-image: 
+    radial-gradient(ellipse at 20% 50%, rgba(102,126,234,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(118,75,162,0.08) 0%, transparent 50%);
+}
+
+.layout {
+  background: #0f0c29;
+}
+
+.layout-header {
+  background: rgba(15,12,41,0.95) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+  backdrop-filter: blur(10px);
+}
+
+.logo-text {
+  color: white !important;
+}
+
+.user-name {
+  color: rgba(255,255,255,0.9) !important;
+}
+
+.user-info {
+  background: rgba(255,255,255,0.07) !important;
+}
+
+.header-btn {
+  color: rgba(255,255,255,0.7) !important;
+}
+
+.header-btn:hover {
+  background: rgba(255,255,255,0.1) !important;
+}

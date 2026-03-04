@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { ChatbotProvider } from './contexts/ChatbotContext';
 import ProtectedRoute from './components/ProtectedRoute';
-
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 // Page Components
 import HomePage from './pages/HomePage';
 import './App.css';
@@ -11,14 +12,10 @@ import Layout from './components/Layout';
 import GalleryPage from './pages/GalleryPage';
 import ProfilePage from './pages/ProfilePage';
 import SettingsPage from './pages/SettingsPage';
-// Temporary placeholder components (we'll create these next)
-const LoginPage = () => <div style={{padding: '2rem'}}><h1>Login Page</h1><p>Coming soon...</p></div>;
-const RegisterPage = () => <div style={{padding: '2rem'}}><h1>Register Page</h1><p>Coming soon...</p></div>;
-const GeneratePage = () => <div style={{padding: '2rem'}}><h1>🎨 Generate Images</h1><p>Coming soon...</p></div>;
-const UploadPage = () => <div style={{padding: '2rem'}}><h1>📤 Upload & Enhance</h1><p>Coming soon...</p></div>;
-const RecognizePage = () => <div style={{padding: '2rem'}}><h1>🔍 Image Recognition</h1><p>Coming soon...</p></div>;
-const ExtractPage = () => <div style={{padding: '2rem'}}><h1>📝 Text Extraction</h1><p>Coming soon...</p></div>;
-
+import GeneratePage from './pages/GeneratePage';// Temporary placeholder components (we'll create these next)
+import RecognizePage from './pages/RecognizePage';
+import ExtractPage from './pages/ExtractPage';
+import EnhancePage from './pages/EnhancePage';
 
 
 const NotFoundPage = () => <div style={{padding: '2rem'}}><h1>404 - Page Not Found</h1></div>;
@@ -43,7 +40,7 @@ function App() {
               }>
                 <Route index element={<GalleryPage />} />
                 <Route path="generate" element={<GeneratePage />} />
-                <Route path="upload" element={<UploadPage />} />
+                <Route path="enhance" element={<EnhancePage />} />
                 <Route path="recognize" element={<RecognizePage />} />
                 <Route path="extract" element={<ExtractPage />} />
                 <Route path="gallery" element={<GalleryPage />} />

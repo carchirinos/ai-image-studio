@@ -1,0 +1,137 @@
+const { BedrockRuntimeClient, InvokeModelCommand } = require("@aws-sdk/client-bedrock-runtime");
+
+exports.handler = async (event) => {
+    console.log('Event received:', JSON.stringify(event, null, 2));
+    
+    // Configuración CORS
+    const headers = {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+        "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
+    };
+
+    // Manejar preflight OPTIONS
+    if (event.httpMethod === 'OPTIONS') {
+        return {
+            statusCode: 200,
+            headers,
+            body: JSON.stringify({ message: 'CORS preflight' })
+        };
+    }
+
+    try {
+        // Parsear el body
+        const body = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
+        const { prompt, negativePrompt = "", cfgScale, steps, seed } = body;
+
+        if (!prompt) {
+            return {
+                statusCode: 400,
+                headers,
+                body: JSON.stringify({ 
+                    error: 'Prompt is required',
+                    message: 'Please provide a prompt for image generation'
+                })
+            };
+        }
+
+        // Configuración del cliente Bedrock
+        const client = new BedrockRuntimeClient({ 
+            region: process.env.AWS_REGION_BEDROCK || 'us-west-2'
+        });
+
+        // Parámetros para Stable Diffusion XL
+        const modelParams = {
+            text_prompts: [
+                {
+                    text: prompt,
+                    weight: 1.0
+                }
+            ],
+            cfg_scale: cfgScale || parseInt(process.env.DEFAULT_CFG_SCALE) || 7,
+            steps: steps || parseInt(process.env.DEFAULT_STEPS) || 30,
+            width: 1024,
+            height: 1024
+        };
+
+        // Agregar negative prompt si existe
+        if (negativePrompt) {
+            modelParams.text_prompts.push({
+                text: negativePrompt,
+                weight: -1.0
+            });
+        }
+
+        // Agregar seed si se proporciona
+        if (seed) {
+            modelParams.seed = parseInt(seed);
+        }
+
+        console.log('Model parameters:', JSON.stringify(modelParams, null, 2));
+
+        // Comando para invocar el modelo
+        const command = new InvokeModelCommand({
+            modelId: process.env.MODEL_ID || 'stability.stable-diffusion-xl-v1',
+            contentType: 'application/json',
+            accept: 'application/json',
+            body: JSON.stringify(modelParams)
+        });
+
+        // Invocar Bedrock
+        console.log('Invoking Bedrock model...');
+        const response = await client.send(command);
+        
+        // Procesar respuesta
+        const responseBody = JSON.parse(new TextDecoder().decode(response.body));
+        console.log('Bedrock response received');
+
+        if (responseBody.artifacts && responseBody.artifacts.length > 0) {
+            const imageBase64 = responseBody.artifacts[0].base64;
+            
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({
+                    success: true,
+                    image: imageBase64,
+                    prompt: prompt,
+                    parameters: {
+                        cfgScale: modelParams.cfg_scale,
+                        steps: modelParams.steps,
+                        seed: modelParams.seed || 'random'
+                    }
+                })
+            };
+        } else {
+            throw new Error('No image generated in response');
+        }
+
+    } catch (error) {
+        console.error('Error generating image:', error);
+        
+        // Manejo específico de errores de Bedrock
+        let errorMessage = 'Failed to generate image';
+        let statusCode = 500;
+
+        if (error.name === 'AccessDeniedException') {
+            errorMessage = 'Access denied to Bedrock service. Please check IAM permissions.';
+            statusCode = 403;
+        } else if (error.name === 'ValidationException') {
+            errorMessage = 'Invalid parameters provided to the model.';
+            statusCode = 400;
+        } else if (error.name === 'ThrottlingException') {
+            errorMessage = 'Request was throttled. Please try again later.';
+            statusCode = 429;
+        }
+
+        return {
+            statusCode,
+            headers,
+            body: JSON.stringify({
+                error: errorMessage,
+                details: error.message,
+                type: error.name || 'UnknownError'
+            })
+        };
+    }
+};

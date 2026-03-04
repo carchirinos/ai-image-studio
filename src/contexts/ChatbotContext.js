@@ -36,23 +36,24 @@ export const ChatbotProvider = ({ children }) => {
     setMessages([]);
   };
 
-  const getContextualHelp = () => {
-    const path = location.pathname;
-    
-    if (path.includes('/generate')) {
-      return "I can help you create amazing images! Try prompts like 'a sunset over mountains in watercolor style' or ask me about different art styles.";
-    } else if (path.includes('/upload')) {
-      return "Upload your images here and I'll help you enhance them! I can suggest the best enhancement options for your photos.";
-    } else if (path.includes('/recognize')) {
-      return "I can analyze your images and tell you what's in them! Upload an image and I'll identify objects, scenes, and more.";
-    } else if (path.includes('/extract')) {
-      return "I can extract text from your images! Upload documents, screenshots, or photos with text and I'll convert them to editable text.";
-    } else if (path.includes('/gallery')) {
-      return "Here's your personal gallery! I can help you organize, search, and manage all your images.";
-    } else {
-      return "Welcome to AI Image Studio Pro! I'm here to help you with image generation, enhancement, recognition, and text extraction. What would you like to do?";
-    }
-  };
+const getContextualHelp = () => {
+  const path = location.pathname;
+  
+  if (path.includes('/generate')) {
+    return "¡Puedo ayudarte a crear imágenes increíbles! Prueba prompts como 'un atardecer sobre montañas en estilo acuarela' o pregúntame sobre diferentes estilos artísticos.";
+  } else if (path.includes('/upload')) {
+    return "¡Sube tus imágenes aquí y te ayudaré a mejorarlas! Puedo sugerir las mejores opciones de mejora para tus fotos.";
+  } else if (path.includes('/recognize')) {
+    return "¡Puedo analizar tus imágenes y decirte qué hay en ellas! Sube una imagen y identificaré objetos, escenas y más.";
+  } else if (path.includes('/extract')) {
+    return "¡Puedo extraer texto de tus imágenes! Sube documentos, capturas de pantalla o fotos con texto y las convertiré a texto editable.";
+  } else if (path.includes('/gallery')) {
+    return "¡Aquí está tu galería personal! Puedo ayudarte a organizar, buscar y gestionar todas tus imágenes.";
+  } else {
+    return "¡Bienvenido a AI Image Studio Pro! Estoy aquí para ayudarte con generación de imágenes, mejora, reconocimiento y extracción de texto. ¿Qué te gustaría hacer?";
+  }
+};
+
 
   const value = {
     isChatbotOpen,
