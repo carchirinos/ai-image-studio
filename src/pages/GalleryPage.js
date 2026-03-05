@@ -90,15 +90,18 @@ const loadSavedImages = async () => {
   
 
   const deleteImage = (imageId) => {
-    if (imageId.startsWith('saved_')) {
-      // Eliminar imagen guardada
-      const originalId = parseInt(imageId.replace('saved_', ''));
-      const updatedSaved = JSON.parse(localStorage.getItem('savedImages') || '[]')
-        .filter(img => img.id !== originalId);
-      localStorage.setItem('savedImages', JSON.stringify(updatedSaved));
-      loadSavedImages(); // Recargar
-    }
-  };
+  if (imageId.toString().startsWith('saved_')) {
+    const originalId = parseInt(imageId.replace('saved_', ''));
+    
+    // ✅ Key correcta: 'galleryImages'
+    const current = JSON.parse(localStorage.getItem('galleryImages') || '[]');
+    const updated = current.filter(img => img.id !== originalId);
+    localStorage.setItem('galleryImages', JSON.stringify(updated));
+    
+    // ✅ Actualizar state directamente sin recargar S3
+    setSavedImages(prev => prev.filter(img => img.id !== imageId));
+  }
+};
 
   const downloadImage = (image, format = 'png') => {
     if (image.source === 'bedrock') {
